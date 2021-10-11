@@ -3,7 +3,8 @@
   "scripts": {
     "start": "run-p server client",
     "server": "yarn workspace server start",
-    "client": "wait-on tcp:1337 && yarn workspace client dev"
+    "client": "wait-on tcp:1337 && yarn workspace client dev",
+    "test": "yarn workspace client test"
   },
   "workspaces": [
     "server",

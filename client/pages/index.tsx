@@ -1,27 +1,26 @@
 import {useQuery, gql} from '@apollo/client'
 
-const IndexPage = () => {
-  const { error, loading, data } = useQuery(gql`
-    query BookTitles {
-      books {
-        title
-      }
-    }
-  `);
+import useMounted from '../hooks/useMounted'
 
-  if (error) {
-    console.error('encountered an error!')
-    console.error(error)
+export const BOOK_QUERY = gql`
+  query BookTitles {
+    books {
+      title
+    }
+  }
+`;
+
+const IndexPage = () => {
+  const mounted = useMounted()
+  const { data } = useQuery(BOOK_QUERY);
+
+  if (!data) {
     return null
   }
-
-  if (loading) {
-    return <h1>...loading</h1>
-  }
   
-  return (
+  return mounted && (
     <div>
-      <h1 role="heading">index page</h1>
+      <h1 data-testid="heading">index page</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   )
