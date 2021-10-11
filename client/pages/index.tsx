@@ -5,7 +5,7 @@ import Blurb from '../components/Blurb';
 import useMounted from '../hooks/useMounted'
 
 export const BOOK_QUERY = gql`
-  query BookTitles {
+  query Books {
     books {
       title
       author
@@ -24,15 +24,15 @@ export const ADD_BOOK = gql`
 
 const IndexPage = () => {
   const mounted = useMounted()
-  const { data, refetch } = useQuery(BOOK_QUERY);
-  const [mutate, { data: newData }] = useMutation(ADD_BOOK);
+  const { loading, error, data, refetch } = useQuery(BOOK_QUERY);
+  const [mutate] = useMutation(ADD_BOOK);
 
   const [formData, setFormData] = useState({
     title: '',
     author: ''
   })
 
-  if (!data) {
+  if (loading || error || !data) {
     return null
   }
   
@@ -43,7 +43,7 @@ const IndexPage = () => {
         <pre>{JSON.stringify(data, null, 2)}</pre>
         <Blurb quote="MMmmm good" />
 
-        <form onSubmit={async e => {
+        <form data-testid="form" onSubmit={async e => {
           e.preventDefault()
           await mutate({variables: {
             book: {
@@ -54,6 +54,7 @@ const IndexPage = () => {
           refetch()
         }}>
           <input
+            data-testid="title"
             placeholder="Book name"
             value={formData.title}
             onChange={(e) =>
@@ -61,6 +62,7 @@ const IndexPage = () => {
             }
           /><br />
           <input
+            data-testid="author"
             placeholder="Author"
             value={formData.author}
             onChange={(e) =>
@@ -69,6 +71,8 @@ const IndexPage = () => {
           /><br />
           <button type="submit">Submit</button>
         </form>
+
+        {data.books[3] && <p data-testid="result">{data.books[3]?.title} added!</p>}
       </div>
     )
   );

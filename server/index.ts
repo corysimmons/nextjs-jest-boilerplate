@@ -26,7 +26,7 @@ const typeDefs = gql`
   }
 `;
 
-const books = [
+export const books = [
   {
     title: 'The Awakening',
     author: 'Kate Chopin',
@@ -51,7 +51,6 @@ const resolvers = {
     },
   }
 };
-
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
