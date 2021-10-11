@@ -1,4 +1,5 @@
 import {useQuery, gql} from '@apollo/client'
+import Blurb from '../components/Blurb';
 
 import useMounted from '../hooks/useMounted'
 
@@ -22,6 +23,7 @@ const IndexPage = () => {
     <div>
       <h1 data-testid="heading">index page</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
+      <Blurb quote="MMmmm good" />
     </div>
   )
 }
