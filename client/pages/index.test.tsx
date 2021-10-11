@@ -5,6 +5,8 @@ import client from '../apollo-client'
 import {BOOK_QUERY} from './index'
 import Blurb from '../components/Blurb'
 
+const {cache} = client
+
 describe("index page", () => {
   beforeAll(async () => {
     const { render: renderPage } = await getPage({
@@ -20,7 +22,7 @@ describe("index page", () => {
 
   test("2 books in gql cache", async () => {
     expect(
-      client.cache.readQuery({
+      cache.readQuery({
         query: BOOK_QUERY,
       })
     ).toEqual({
